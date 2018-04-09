@@ -1,6 +1,9 @@
 package me.davidllorca.popularmovies;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +15,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -24,7 +25,8 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class MovieListActivity extends AppCompatActivity {
+public class MovieListActivity extends AppCompatActivity
+        implements AsyncTaskListener<List<Movie>>,MovieRecyclerViewAdapter.MovieListener {
 
     private static final int DEFAULT_SORT_TYPE = GetMoviesTask.GET_POPULAR_MOVIES;
 
@@ -73,7 +75,24 @@ public class MovieListActivity extends AppCompatActivity {
     }
 
     private void loadData(int sortType) {
-        new GetMoviesTask().execute(sortType);
+        if(hasNetworkConnection()) {
+            new GetMoviesTask(this).execute(sortType);
+        }
+    }
+
+    @Override
+    public void onTaskStarted() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onTaskCompleted(List<Movie> movies) {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        if (!movies.isEmpty()) {
+            showMovies(movies);
+        } else {
+            showError();
+        }
     }
 
     private void showMovies(List<Movie> movies) {
@@ -84,49 +103,19 @@ public class MovieListActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.msg_error_loading_movies, Toast.LENGTH_SHORT).show();
     }
 
-    class GetMoviesTask extends AsyncTask<Integer, Void, List<Movie>> {
-
-        static final int GET_POPULAR_MOVIES = 0;
-        static final int GET_TOP_RATED_MOVIES = 1;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Movie> doInBackground(Integer... params) {
-            URL url;
-            switch (params[0]) {
-                case GET_POPULAR_MOVIES:
-                    url = RequestFactory.buildPopularMoviesUrl();
-                    break;
-                case GET_TOP_RATED_MOVIES:
-                     url = RequestFactory.buildTopRatedMoviesUrl();
-                    break;
-                default:
-                    return null;
-            }
-
-            try {
-                String popularMoviesResponse = NetworkUtils.getResponseFromHttpUrl
-                        (url);
-                return ResponseUtils.parseMoviesJson(popularMoviesResponse);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            if (!movies.isEmpty()) {
-                showMovies(movies);
-            } else {
-                showError();
-            }
-        }
+    @Override
+    public void onClickMovie(Movie movie) {
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra(MovieDetailFragment.ARG_ITEM, movie);
+        startActivity(intent);
     }
+
+    private boolean hasNetworkConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
 }

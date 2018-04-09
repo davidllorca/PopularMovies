@@ -18,23 +18,16 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         .ViewHolder> {
 
     private final Context mContext;
-    private final MovieListActivity mParentActivity;
     private List<Movie> mDataSet;
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Movie item = (Movie) view.getTag();
-                Context context = view.getContext();
-                Intent intent = new Intent(context, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailFragment.ARG_ITEM, item);
+    private MovieListener mListener;
 
-                context.startActivity(intent);
-        }
-    };
 
-    MovieRecyclerViewAdapter(Context context, MovieListActivity parent) {
+    interface MovieListener {
+        void onClickMovie(Movie movie);
+    }
+
+    MovieRecyclerViewAdapter(Context context, MovieListener listener) {
         mContext = context;
-        mParentActivity = parent;
         mDataSet = new ArrayList<>();
     }
 
@@ -53,14 +46,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     @Override
     public void onBindViewHolder(final MovieRecyclerViewAdapter.ViewHolder holder, int position) {
-        Movie movie = mDataSet.get(position);
+        final Movie movie = mDataSet.get(position);
 
         Picasso.with(mContext)
                 .load(BuildConfig.BASE_IMAGE_URL + "/" + movie.getPosterPath())
                 .into(holder.mPosterView);
 
         holder.itemView.setTag(movie);
-        holder.itemView.setOnClickListener(mOnClickListener);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onClickMovie(movie);
+            }
+        });
     }
 
     @Override
