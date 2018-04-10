@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ResponseUtils {
 
-    // KEYS    
+    // Keys
     private static final String RESULTS_KEY = "results";
 
     private static final String ID_KEY = "id";
@@ -25,6 +25,11 @@ public class ResponseUtils {
     private static final String VOTE_AVERAGE_KEY = "vote_average";
     private static final String OVERVIEW_KEY = "overview";
     private static final String RELEASE_DATE_KEY = "release_date";
+
+    // Trailer keys
+    private static final String KEY_KEY = "key";
+    private static final String NAME_KEY = "name";
+    private static final String SITE_KEY = "site";
 
     static List<Movie> parseMoviesJson(String json) {
         try {
@@ -36,6 +41,26 @@ public class ResponseUtils {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     Movie parsedMovie = parseMovieJson(jsonArray.getString(i));
                     if(parsedMovie != null) list.add(parsedMovie);
+                }
+                return list;
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    static List<Trailer> parseTrailersJson(String json) {
+        try {
+            List<Trailer> list = new ArrayList<>();
+            JSONObject object = new JSONObject(json);
+            if(object.has(RESULTS_KEY)){
+                String results = object.optString(RESULTS_KEY);
+                JSONArray jsonArray = new JSONArray(results);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Trailer parsedTrailer = parseTrailerJson(jsonArray.getString(i));
+                    if(parsedTrailer != null) list.add(parsedTrailer);
                 }
                 return list;
             }
@@ -70,6 +95,27 @@ public class ResponseUtils {
             }
             return movie;
         } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    private static Trailer parseTrailerJson(String json){
+        try{
+            JSONObject object = new JSONObject(json);
+            Trailer trailer = new Trailer();
+            if(object.has(KEY_KEY)){
+                trailer.setKey(object.optString(KEY_KEY));
+            }
+            if(object.has(NAME_KEY)){
+                trailer.setKey(object.optString(NAME_KEY));
+            }
+            if(object.has(SITE_KEY)){
+                trailer.setKey(object.optString(SITE_KEY));
+            }
+            return trailer;
+        } catch (JSONException e){
             e.printStackTrace();
             return null;
         }
