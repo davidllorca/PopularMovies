@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

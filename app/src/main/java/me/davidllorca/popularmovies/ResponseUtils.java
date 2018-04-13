@@ -8,6 +8,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.davidllorca.popularmovies.model.Movie;
+import me.davidllorca.popularmovies.model.Review;
+import me.davidllorca.popularmovies.model.Trailer;
+
 /**
  * Parse response from remote API.
  *
@@ -30,6 +34,11 @@ public class ResponseUtils {
     private static final String KEY_KEY = "key";
     private static final String NAME_KEY = "name";
     private static final String SITE_KEY = "site";
+
+    // Review keys
+    private static final String AUTHOR_KEY = "author";
+    private static final String COMMENT_KEY = "comment";
+    private static final String URL_KEY = "url";
 
     static List<Movie> parseMoviesJson(String json) {
         try {
@@ -61,6 +70,26 @@ public class ResponseUtils {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     Trailer parsedTrailer = parseTrailerJson(jsonArray.getString(i));
                     if(parsedTrailer != null) list.add(parsedTrailer);
+                }
+                return list;
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    static List<Review> parseReviewsJson(String json) {
+        try {
+            List<Review> list = new ArrayList<>();
+            JSONObject object = new JSONObject(json);
+            if (object.has(RESULTS_KEY)) {
+                String results = object.optString(RESULTS_KEY);
+                JSONArray jsonArray = new JSONArray(results);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Review parsedTrailer = parseReviewJson(jsonArray.getString(i));
+                    if (parsedTrailer != null) list.add(parsedTrailer);
                 }
                 return list;
             }
@@ -109,13 +138,36 @@ public class ResponseUtils {
                 trailer.setKey(object.optString(KEY_KEY));
             }
             if(object.has(NAME_KEY)){
-                trailer.setKey(object.optString(NAME_KEY));
+                trailer.setName(object.optString(NAME_KEY));
             }
             if(object.has(SITE_KEY)){
-                trailer.setKey(object.optString(SITE_KEY));
+                trailer.setSite(object.optString(SITE_KEY));
             }
             return trailer;
         } catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static Review parseReviewJson(String json) {
+        try {
+            JSONObject object = new JSONObject(json);
+            Review review = new Review();
+            if (object.has(ID_KEY)) {
+                review.setId(object.optString(ID_KEY));
+            }
+            if (object.has(AUTHOR_KEY)) {
+                review.setAuthor(object.optString(AUTHOR_KEY));
+            }
+            if (object.has(COMMENT_KEY)) {
+                review.setContenf(object.optString(COMMENT_KEY));
+            }
+            if (object.has(URL_KEY)) {
+                review.setUrl(object.optString(URL_KEY));
+            }
+            return review;
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }

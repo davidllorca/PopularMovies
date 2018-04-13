@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import me.davidllorca.popularmovies.model.Movie;
+
 
 /**
  * A fragment representing a single Movie detail screen.

@@ -3,16 +3,19 @@ package me.davidllorca.popularmovies;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.List;
+
+import me.davidllorca.popularmovies.model.Trailer;
 
 /**
  * Created by david on 9/4/18.
  */
 
-public class GetTrailersTask extends AsyncTask<Integer, Void, Object> {
+public class GetTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
 
-    private AsyncTaskListener listener;
+    private AsyncTaskListener<List<Trailer>> listener;
 
-    public GetTrailersTask(AsyncTaskListener listener) {
+    public GetTrailersTask(AsyncTaskListener<List<Trailer>> listener) {
         this.listener = listener;
     }
 
@@ -23,17 +26,19 @@ public class GetTrailersTask extends AsyncTask<Integer, Void, Object> {
     }
 
     @Override
-    protected Object doInBackground(Integer... params) {
+    protected List<Trailer> doInBackground(Integer... params) {
         try {
             String videosResponse = NetworkUtils.getResponseFromHttpUrl(RequestFactory.buildGetVideosUrl(params[0]));
-            return ResponseUtils.parseMoviesJson(videosResponse);
+            return ResponseUtils.parseTrailersJson(videosResponse);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }    }
+        }
+    }
 
     @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
+    protected void onPostExecute(List<Trailer> trailers) {
+        listener.onTaskCompleted(trailers);
     }
+
 }

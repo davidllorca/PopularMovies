@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import me.davidllorca.popularmovies.model.Movie;
+
 /**
  * An activity representing a list of Movies. This activity
  * has different presentations for handset and tablet-size devices. On

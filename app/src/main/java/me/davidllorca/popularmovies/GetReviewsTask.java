@@ -3,16 +3,19 @@ package me.davidllorca.popularmovies;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.List;
+
+import me.davidllorca.popularmovies.model.Review;
 
 /**
  * Created by david on 10/4/18.
  */
 
-public class GetReviewsTask extends AsyncTask<Integer, Void, Object> {
+public class GetReviewsTask extends AsyncTask<Integer, Void, List<Review>> {
 
-    private AsyncTaskListener listener;
+    private AsyncTaskListener<List<Review>> listener;
 
-    public GetReviewsTask(AsyncTaskListener listener) {
+    public GetReviewsTask(AsyncTaskListener<List<Review>> listener) {
         this.listener = listener;
     }
 
@@ -23,10 +26,10 @@ public class GetReviewsTask extends AsyncTask<Integer, Void, Object> {
     }
 
     @Override
-    protected Object doInBackground(Integer... params) {
+    protected List<Review> doInBackground(Integer... params) {
         try {
             String videosResponse = NetworkUtils.getResponseFromHttpUrl(RequestFactory.buildGetReviewsUrl(params[0]));
-            return ResponseUtils.parseMoviesJson(videosResponse);
+            return ResponseUtils.parseReviewsJson(videosResponse);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -34,8 +37,8 @@ public class GetReviewsTask extends AsyncTask<Integer, Void, Object> {
     }
 
     @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
-
+    protected void onPostExecute(List<Review> reviews) {
+        listener.onTaskCompleted(reviews);
     }
+
 }

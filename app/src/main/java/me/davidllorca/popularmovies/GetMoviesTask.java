@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import me.davidllorca.popularmovies.model.Movie;
+
 /**
  * Created by david on 9/4/18.
  */
@@ -15,9 +17,9 @@ public class GetMoviesTask extends AsyncTask<Integer, Void, List<Movie>> {
     static final int GET_POPULAR_MOVIES = 0;
     static final int GET_TOP_RATED_MOVIES = 1;
 
-    private AsyncTaskListener listener;
+    private AsyncTaskListener<List<Movie>> listener;
 
-    public GetMoviesTask(AsyncTaskListener listener) {
+    public GetMoviesTask(AsyncTaskListener<List<Movie>> listener) {
         this.listener = listener;
     }
 
