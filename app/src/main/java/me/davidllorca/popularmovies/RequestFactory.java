@@ -18,8 +18,8 @@ public final class RequestFactory {
     private static final String TAG = RequestFactory.class.getSimpleName();
 
     private static final String MOVIE_SEGMENT = "movie/";
-    private static final String VIDEOS_SEGMENT = "videos/";
-    private static final String REVIEWS_SEGMENT = "reviews/";
+    private static final String VIDEOS_SEGMENT = "videos";
+    private static final String REVIEWS_SEGMENT = "reviews";
 
     private static final String POPULAR_ENDPOINT = MOVIE_SEGMENT + "popular";
     private static final String TOP_RATED_ENDPOINT = MOVIE_SEGMENT + "top_rated";

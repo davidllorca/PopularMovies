@@ -3,6 +3,7 @@ package me.davidllorca.popularmovies;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.davidllorca.popularmovies.model.Review;
@@ -38,7 +39,7 @@ public class GetReviewsTask extends AsyncTask<Integer, Void, List<Review>> {
 
     @Override
     protected void onPostExecute(List<Review> reviews) {
-        listener.onTaskCompleted(reviews);
+        listener.onTaskCompleted(reviews != null ? reviews : new ArrayList<Review>());
     }
 
 }

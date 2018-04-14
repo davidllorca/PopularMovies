@@ -3,6 +3,7 @@ package me.davidllorca.popularmovies;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.davidllorca.popularmovies.model.Trailer;
@@ -38,7 +39,7 @@ public class GetTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
 
     @Override
     protected void onPostExecute(List<Trailer> trailers) {
-        listener.onTaskCompleted(trailers);
+        listener.onTaskCompleted(trailers != null ? trailers : new ArrayList<Trailer>());
     }
 
 }

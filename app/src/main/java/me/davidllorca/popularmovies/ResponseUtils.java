@@ -37,7 +37,7 @@ public class ResponseUtils {
 
     // Review keys
     private static final String AUTHOR_KEY = "author";
-    private static final String COMMENT_KEY = "comment";
+    private static final String CONTENT_KEY = "content";
     private static final String URL_KEY = "url";
 
     static List<Movie> parseMoviesJson(String json) {
@@ -160,8 +160,8 @@ public class ResponseUtils {
             if (object.has(AUTHOR_KEY)) {
                 review.setAuthor(object.optString(AUTHOR_KEY));
             }
-            if (object.has(COMMENT_KEY)) {
-                review.setContent(object.optString(COMMENT_KEY));
+            if (object.has(CONTENT_KEY)) {
+                review.setContent(object.optString(CONTENT_KEY));
             }
             if (object.has(URL_KEY)) {
                 review.setUrl(object.optString(URL_KEY));

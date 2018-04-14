@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.davidllorca.popularmovies.model.Review;
@@ -17,6 +18,11 @@ import me.davidllorca.popularmovies.model.Review;
 public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder> {
 
     private List<Review> mDataSet;
+
+    public ReviewRecyclerViewAdapter() {
+        super();
+        mDataSet = new ArrayList<>();
+    }
 
     public void setData(List<Review> reviews) {
         mDataSet.clear();

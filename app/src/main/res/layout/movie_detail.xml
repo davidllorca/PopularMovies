@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_poster"
             android:layout_width="match_parent"
             android:layout_height="450dp"
@@ -59,24 +60,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="Overview Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" />
 
-        <!--<include layout="@layout/trailer_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
-        <!---->
-        <!--<include layout="@layout/review_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
-
-        <fragment
+        <FrameLayout
             android:id="@+id/fragment_trailer_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment
+        <FrameLayout
             android:id="@+id/fragment_review_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <!---->
+
         <!--<android.support.v7.widget.RecyclerView-->
         <!--android:id="@+id/rv_trailers"-->
         <!--android:layout_width="match_parent"-->

@@ -27,6 +27,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     }
 
     MovieRecyclerViewAdapter(Context context, MovieListener listener) {
+        super();
         mContext = context;
         mDataSet = new ArrayList<>();
         mListener = listener;

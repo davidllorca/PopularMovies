@@ -52,8 +52,6 @@ public class MovieDetailFragment extends Fragment {
 
             Fragment trailerListFragment = TrailerListFragment.newInstance(mMovie.getId());
             Fragment reviewListFragment = ReviewListFragment.newInstance(mMovie.getId());
-            trailerListFragment.setArguments(arguments);
-            reviewListFragment.setArguments(arguments);
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragment_trailer_list, trailerListFragment)

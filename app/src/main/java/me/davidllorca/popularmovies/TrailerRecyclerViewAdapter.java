@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.davidllorca.popularmovies.model.Trailer;
@@ -25,6 +26,8 @@ public class TrailerRecyclerViewAdapter extends RecyclerView.Adapter<TrailerRecy
     }
 
     TrailerRecyclerViewAdapter(TrailerListener listener) {
+        super();
+        mDataSet = new ArrayList<>();
         mListener = listener;
     }
 

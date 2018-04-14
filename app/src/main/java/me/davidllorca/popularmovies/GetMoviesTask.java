@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.davidllorca.popularmovies.model.Movie;
@@ -54,6 +55,6 @@ public class GetMoviesTask extends AsyncTask<Integer, Void, List<Movie>> {
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
-        listener.onTaskCompleted(movies);
+        listener.onTaskCompleted(movies != null ? movies : new ArrayList<Movie>());
     }
 }
