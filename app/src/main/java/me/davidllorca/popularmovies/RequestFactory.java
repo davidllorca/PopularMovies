@@ -9,7 +9,7 @@ import java.net.URL;
 
 /**
  * Factory responsible for generating API's requests.
- *
+ * <p>
  * Created by David Llorca <davidllorcabaron@gmail.com> on 4/04/18.
  */
 
@@ -27,8 +27,7 @@ public final class RequestFactory {
     private static final String API_KEY_PARAM = "api_key";
 
 
-
-    private RequestFactory(){
+    private RequestFactory() {
 
     }
 

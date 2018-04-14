@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import me.davidllorca.popularmovies.model.Movie;
+import me.davidllorca.popularmovies.model.Review;
+import me.davidllorca.popularmovies.model.Trailer;
 
 
 /**
@@ -40,10 +44,21 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        if (getArguments().containsKey(ARG_ITEM)) {
-            mMovie = getArguments().getParcelable(ARG_ITEM);
+        Bundle arguments = getArguments();
+        if (arguments.containsKey(ARG_ITEM)) {
+            mMovie = arguments.getParcelable(ARG_ITEM);
 
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mMovie.getTitle());
+
+            Fragment trailerListFragment = TrailerListFragment.newInstance(mMovie.getId());
+            Fragment reviewListFragment = ReviewListFragment.newInstance(mMovie.getId());
+            trailerListFragment.setArguments(arguments);
+            reviewListFragment.setArguments(arguments);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_trailer_list, trailerListFragment)
+                    .add(R.id.fragment_review_list, reviewListFragment)
+                    .commit();
         }
     }
 
@@ -68,4 +83,5 @@ public class MovieDetailFragment extends Fragment {
 
         return rootView;
     }
+
 }

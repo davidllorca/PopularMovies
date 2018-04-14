@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 /**
  * Model of Movie content.
- *
+ * <p>
  * Created by David Llorca <davidllorcabaron@gmail.com> on 7/04/18.
  */
 

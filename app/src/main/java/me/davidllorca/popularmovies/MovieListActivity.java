@@ -28,11 +28,11 @@ import me.davidllorca.popularmovies.model.Movie;
  * item details side-by-side using two vertical panes.
  */
 public class MovieListActivity extends AppCompatActivity
-        implements AsyncTaskListener<List<Movie>>,MovieRecyclerViewAdapter.MovieListener {
+        implements AsyncTaskListener<List<Movie>>, MovieRecyclerViewAdapter.MovieListener {
 
     private static final int DEFAULT_SORT_TYPE = GetMoviesTask.GET_POPULAR_MOVIES;
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mList;
     private ProgressBar mProgressBar;
 
     @Override
@@ -44,9 +44,9 @@ public class MovieListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        mProgressBar = findViewById(R.id.pb_loading_indicator);
-        mRecyclerView = findViewById(R.id.movie_list);
-        assert mRecyclerView != null;
+        mProgressBar = findViewById(R.id.pb_movie_list_loading_indicator);
+        mList = findViewById(R.id.rv_movie_list);
+        assert mList != null;
         setupRecyclerView();
 
         loadData(DEFAULT_SORT_TYPE);
@@ -73,11 +73,11 @@ public class MovieListActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView() {
-        mRecyclerView.setAdapter(new MovieRecyclerViewAdapter(this, this));
+        mList.setAdapter(new MovieRecyclerViewAdapter(this, this));
     }
 
     private void loadData(int sortType) {
-        if(hasNetworkConnection()) {
+        if (hasNetworkConnection()) {
             new GetMoviesTask(this).execute(sortType);
         }
     }
@@ -98,7 +98,7 @@ public class MovieListActivity extends AppCompatActivity
     }
 
     private void showMovies(List<Movie> movies) {
-        ((MovieRecyclerViewAdapter) mRecyclerView.getAdapter()).setData(movies);
+        ((MovieRecyclerViewAdapter) mList.getAdapter()).setData(movies);
     }
 
     private void showError() {

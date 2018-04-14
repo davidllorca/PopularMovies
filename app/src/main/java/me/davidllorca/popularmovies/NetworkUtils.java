@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * These utilities will be used to communicate with the remote API.
- *
+ * <p>
  * Created by David Llorca <davidllorcabaron@gmail.com> on 4/04/18.
  */
 public final class NetworkUtils {

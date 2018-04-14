@@ -29,6 +29,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     MovieRecyclerViewAdapter(Context context, MovieListener listener) {
         mContext = context;
         mDataSet = new ArrayList<>();
+        mListener = listener;
     }
 
     public void setData(List<Movie> movies) {
@@ -40,7 +41,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     @Override
     public MovieRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_content, parent, false);
+                .inflate(R.layout.item_movie, parent, false);
         return new MovieRecyclerViewAdapter.ViewHolder(view);
     }
 

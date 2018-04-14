@@ -4,7 +4,7 @@ public class Review {
 
     private String id;
     private String author;
-    private String contenf;
+    private String content;
     private String url;
 
     public String getId() {
@@ -23,12 +23,12 @@ public class Review {
         this.author = author;
     }
 
-    public String getContenf() {
-        return contenf;
+    public String getContent() {
+        return content;
     }
 
-    public void setContenf(String contenf) {
-        this.contenf = contenf;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getUrl() {
