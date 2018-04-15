@@ -16,19 +16,11 @@ import android.support.annotation.Nullable;
 
 public class MoviesProvider extends ContentProvider {
 
-    private MoviesDBHelper mMoviesDBHelper;
-    private UriMatcher sUriMatcher;
-
     // Codes for the UriMatcher
     private static final int MOVIE = 100;
     private static final int MOVIE_WITH_ID = 200;
-
-    @Override
-    public boolean onCreate() {
-        mMoviesDBHelper = new MoviesDBHelper(getContext());
-        sUriMatcher = buildUriMatcher();
-        return true;
-    }
+    private MoviesDBHelper mMoviesDBHelper;
+    private UriMatcher sUriMatcher;
 
     private static UriMatcher buildUriMatcher(){
         // Build a UriMatcher by adding a specific code to return based on a match
@@ -41,6 +33,13 @@ public class MoviesProvider extends ContentProvider {
         matcher.addURI(authority, MoviesContract.MovieEntry.TABLE_MOVIES + "/#", MOVIE_WITH_ID);
 
         return matcher;
+    }
+
+    @Override
+    public boolean onCreate() {
+        mMoviesDBHelper = new MoviesDBHelper(getContext());
+        sUriMatcher = buildUriMatcher();
+        return true;
     }
 
     @Nullable
@@ -132,18 +131,11 @@ public class MoviesProvider extends ContentProvider {
             case MOVIE:
                 numDeleted = db.delete(
                         MoviesContract.MovieEntry.TABLE_MOVIES, selection, selectionArgs);
-                // reset _ID
-                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-                        MoviesContract.MovieEntry.TABLE_MOVIES + "'");
                 break;
             case MOVIE_WITH_ID:
                 numDeleted = db.delete(MoviesContract.MovieEntry.TABLE_MOVIES,
                         MoviesContract.MovieEntry.COLUMN_ID + " = ?",
                         new String[]{String.valueOf(ContentUris.parseId(uri))});
-                // reset _ID
-                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-                        MoviesContract.MovieEntry.TABLE_MOVIES + "'");
-
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

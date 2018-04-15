@@ -21,16 +21,15 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     private List<Movie> mDataSet;
     private MovieListener mListener;
 
-
-    interface MovieListener {
-        void onClickMovie(Movie movie);
-    }
-
     MovieRecyclerViewAdapter(Context context, MovieListener listener) {
         super();
         mContext = context;
         mDataSet = new ArrayList<>();
         mListener = listener;
+    }
+
+    public List<Movie> getData() {
+        return mDataSet;
     }
 
     public void setData(List<Movie> movies) {
@@ -66,6 +65,10 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    interface MovieListener {
+        void onClickMovie(Movie movie);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

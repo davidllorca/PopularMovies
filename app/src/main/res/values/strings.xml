@@ -8,7 +8,7 @@
 
     <string name="content_description_poster_movie">Poster of movie</string>
 
-    <string name="msg_error_loading_movies">Error loading movies...</string>
+    <string name="msg_no_movies_found">No movies found…</string>
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
     <string name="favourites">Favourites</string>

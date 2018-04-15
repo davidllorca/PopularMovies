@@ -3,15 +3,14 @@ package me.davidllorca.popularmovies;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +40,6 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
      * represents.
      */
     public static final String ITEM_KEY = "item";
-    public static final String IS_FAVOURITE_KEY = "is_favourite";
 
     /**
      * VIEWS
@@ -63,13 +61,22 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        Bundle arguments = getArguments();
-        if (arguments.containsKey(ITEM_KEY)) {
-            mMovie = arguments.getParcelable(ITEM_KEY);
-
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mMovie.getTitle());
-
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if (arguments.containsKey(ITEM_KEY)) {
+                mMovie = arguments.getParcelable(ITEM_KEY);
+            } else {
+                getActivity().finish();
+            }
+        } else {
+            mMovie = savedInstanceState.getParcelable(ITEM_KEY);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(ITEM_KEY, mMovie);
     }
 
     @Override
@@ -96,17 +103,6 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
             mReviewList.setAdapter(new ReviewRecyclerViewAdapter());
 
             mFavouriteCheckbox = rootView.findViewById(R.id.cb_favorite);
-            mFavouriteCheckbox.setChecked(getArguments().getBoolean(IS_FAVOURITE_KEY));
-            mFavouriteCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    if(checked){
-                        insetMovie();
-                    } else {
-                        removeMovie();
-                    }
-                }
-            });
 
             loadData(mMovie.getId());
         }
@@ -116,15 +112,15 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
 
     private void insetMovie() {
         ContentValues movieValues = new ContentValues();
-        movieValues.put(MoviesContract.MovieEntry.COLUMN_ID, mMovie.getTitle());
+        movieValues.put(MoviesContract.MovieEntry.COLUMN_ID, mMovie.getId());
         movieValues.put(MoviesContract.MovieEntry.COLUMN_TITLE, mMovie.getTitle());
         movieValues.put(MoviesContract.MovieEntry.COLUMN_POSTER_PATH, mMovie.getPosterPath());
         movieValues.put(MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE, mMovie.getVoteAverage());
         movieValues.put(MoviesContract.MovieEntry.COLUMN_OVERVIEW, mMovie.getOverview());
         movieValues.put(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.getReleaseDate());
+        movieValues.put(MoviesContract.MovieEntry.COLUMN_FAVOURITE, true);
 
         getActivity().getContentResolver().insert(MoviesContract.MovieEntry.CONTENT_URI, movieValues);
-
     }
 
 
@@ -138,11 +134,35 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
             new GetTrailersTask(this).execute(movieId);
             new GetReviewsTask(this).execute(movieId);
         }
+        checkIsFavourite(movieId);
+    }
+
+    private void checkIsFavourite(int movieId) {
+        Cursor cursor = getActivity().getContentResolver().query(
+                MoviesContract.MovieEntry.CONTENT_URI,
+                null,
+                MoviesContract.MovieEntry.COLUMN_ID + "= ?",
+                new String[]{String.valueOf(movieId)},
+                null);
+
+        if (cursor != null && cursor.getCount() == 1) {
+            if (cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_FAVOURITE);
+                mMovie.setFavourite(cursor.getInt(index) == 1);
+            }
+        }
+        mFavouriteCheckbox.setChecked(mMovie.isFavourite());
+        mFavouriteCheckbox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if (checked) {
+                insetMovie();
+            } else {
+                removeMovie();
+            }
+        });
     }
 
     @Override
     public void onTaskStarted() {
-
     }
 
     @Override

@@ -26,7 +26,7 @@ public class MoviesContract {
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_RELEASE_DATE = "release_date";
-        public static final String COLUMN_FAVOURITE = "favourite"; // TODO BORRAR
+        public static final String COLUMN_FAVOURITE = "favourite";
 
         // create content uri
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()

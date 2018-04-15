@@ -25,12 +25,13 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " +
                 MoviesContract.MovieEntry.TABLE_MOVIES + "(" +
-                MoviesContract.MovieEntry.COLUMN_ID + " INTEGER NOT NULL, " +
+                MoviesContract.MovieEntry.COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 MoviesContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 MoviesContract.MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
                 MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE + " DOUBLE NOT NULL, " +
                 MoviesContract.MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
-                MoviesContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL);";
+                MoviesContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+                MoviesContract.MovieEntry.COLUMN_FAVOURITE + " INTEGER DEFAULT 0);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

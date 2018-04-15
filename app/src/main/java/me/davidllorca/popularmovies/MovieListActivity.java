@@ -2,10 +2,10 @@ package me.davidllorca.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,9 +16,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.data.local.MoviesContract;
+import me.davidllorca.popularmovies.data.local.GetFavouritesTask;
 import me.davidllorca.popularmovies.data.model.Movie;
 import me.davidllorca.popularmovies.data.remote.AsyncTaskListener;
 import me.davidllorca.popularmovies.data.remote.GetMoviesTask;
@@ -36,6 +37,8 @@ public class MovieListActivity extends AppCompatActivity
 
     private static final int DEFAULT_SORT_TYPE = GetMoviesTask.GET_POPULAR_MOVIES;
 
+    private static final String MOVIES_KEY = "movies";
+
     private RecyclerView mList;
     private ProgressBar mProgressBar;
 
@@ -44,7 +47,7 @@ public class MovieListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -53,7 +56,21 @@ public class MovieListActivity extends AppCompatActivity
         assert mList != null;
         setupRecyclerView();
 
-        loadData(DEFAULT_SORT_TYPE);
+        if (savedInstanceState == null) {
+            loadData(DEFAULT_SORT_TYPE);
+        } else {
+            ArrayList<Movie> savedData = savedInstanceState.getParcelableArrayList
+                    (MOVIES_KEY);
+            ((MovieRecyclerViewAdapter) mList.getAdapter()).setData(savedData);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIES_KEY,
+                (ArrayList<? extends Parcelable>) ((MovieRecyclerViewAdapter) mList.getAdapter
+                        ()).getData());
     }
 
     @Override
@@ -71,6 +88,7 @@ public class MovieListActivity extends AppCompatActivity
                 break;
             case R.id.action_sort_by_popular:
                 loadData(GetMoviesTask.GET_POPULAR_MOVIES);
+                break;
             default:
                 getFavourites();
 
@@ -89,8 +107,7 @@ public class MovieListActivity extends AppCompatActivity
     }
 
     private void getFavourites() {
-        Cursor c = getContentResolver()
-                .query(MoviesContract.MovieEntry.CONTENT_URI, null, null, null, null);
+        new GetFavouritesTask(this, this).execute();
     }
 
     @Override
@@ -104,16 +121,12 @@ public class MovieListActivity extends AppCompatActivity
         if (!movies.isEmpty()) {
             showMovies(movies);
         } else {
-            showError();
+            Toast.makeText(this, R.string.msg_no_movies_found, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showMovies(List<Movie> movies) {
         ((MovieRecyclerViewAdapter) mList.getAdapter()).setData(movies);
-    }
-
-    private void showError() {
-        Toast.makeText(this, R.string.msg_error_loading_movies, Toast.LENGTH_SHORT).show();
     }
 
     @Override
