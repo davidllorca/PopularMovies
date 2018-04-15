@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies.model;
+package me.davidllorca.popularmovies.data.model;
 
 /**
  * Created by david on 10/4/18.

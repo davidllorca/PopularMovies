@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
 /**
  * Created by david on 9/4/18.

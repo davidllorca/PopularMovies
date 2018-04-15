@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies.model;
+package me.davidllorca.popularmovies.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,6 +17,8 @@ public class Movie implements Parcelable {
     private double voteAverage;
     private String overview;
     private String releaseDate;
+
+    private boolean isFavourite;
 
     public int getId() {
         return id;
@@ -105,4 +107,12 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
 }

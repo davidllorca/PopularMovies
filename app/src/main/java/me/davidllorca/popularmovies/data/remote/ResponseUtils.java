@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
 
 import org.json.JSONArray;
@@ -8,9 +8,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Movie;
-import me.davidllorca.popularmovies.model.Review;
-import me.davidllorca.popularmovies.model.Trailer;
+import me.davidllorca.popularmovies.data.model.Movie;
+import me.davidllorca.popularmovies.data.model.Review;
+import me.davidllorca.popularmovies.data.model.Trailer;
 
 /**
  * Parse response from remote API.

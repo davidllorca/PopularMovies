@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies.model;
+package me.davidllorca.popularmovies.data.model;
 
 public class Review {
 

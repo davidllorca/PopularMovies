@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import me.davidllorca.popularmovies.BuildConfig;
 
 /**
  * Factory responsible for generating API's requests.

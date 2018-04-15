@@ -2,6 +2,7 @@ package me.davidllorca.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Movie;
+import me.davidllorca.popularmovies.data.local.MoviesContract;
+import me.davidllorca.popularmovies.data.model.Movie;
+import me.davidllorca.popularmovies.data.remote.AsyncTaskListener;
+import me.davidllorca.popularmovies.data.remote.GetMoviesTask;
 
 /**
  * An activity representing a list of Movies. This activity
@@ -65,8 +69,10 @@ public class MovieListActivity extends AppCompatActivity
             case R.id.action_sort_by_top_rated:
                 loadData(GetMoviesTask.GET_TOP_RATED_MOVIES);
                 break;
-            default:
+            case R.id.action_sort_by_popular:
                 loadData(GetMoviesTask.GET_POPULAR_MOVIES);
+            default:
+                getFavourites();
 
         }
         return super.onOptionsItemSelected(item);
@@ -80,6 +86,11 @@ public class MovieListActivity extends AppCompatActivity
         if (hasNetworkConnection()) {
             new GetMoviesTask(this).execute(sortType);
         }
+    }
+
+    private void getFavourites() {
+        Cursor c = getContentResolver()
+                .query(MoviesContract.MovieEntry.CONTENT_URI, null, null, null, null);
     }
 
     @Override
@@ -108,7 +119,7 @@ public class MovieListActivity extends AppCompatActivity
     @Override
     public void onClickMovie(Movie movie) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
-        intent.putExtra(MovieDetailFragment.ARG_ITEM, movie);
+        intent.putExtra(MovieDetailFragment.ITEM_KEY, movie);
         startActivity(intent);
     }
 

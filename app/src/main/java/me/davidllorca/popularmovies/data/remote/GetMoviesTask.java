@@ -1,4 +1,4 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
 import android.os.AsyncTask;
 
@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Movie;
+import me.davidllorca.popularmovies.data.model.Movie;
 
 /**
  * Created by david on 9/4/18.
@@ -15,8 +15,8 @@ import me.davidllorca.popularmovies.model.Movie;
 
 public class GetMoviesTask extends AsyncTask<Integer, Void, List<Movie>> {
 
-    static final int GET_POPULAR_MOVIES = 0;
-    static final int GET_TOP_RATED_MOVIES = 1;
+    public static final int GET_POPULAR_MOVIES = 0;
+    public static final int GET_TOP_RATED_MOVIES = 1;
 
     private AsyncTaskListener<List<Movie>> listener;
 

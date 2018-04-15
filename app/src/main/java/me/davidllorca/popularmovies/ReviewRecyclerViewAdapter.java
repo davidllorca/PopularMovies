@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Review;
+import me.davidllorca.popularmovies.data.model.Review;
 
 /**
  * Created by david on 14/4/18.
@@ -17,14 +17,14 @@ import me.davidllorca.popularmovies.model.Review;
 
 public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder> {
 
-    private List<Review> mDataSet;
+    private List mDataSet;
 
     public ReviewRecyclerViewAdapter() {
         super();
         mDataSet = new ArrayList<>();
     }
 
-    public void setData(List<Review> reviews) {
+    public void setData(List<Object> reviews) {
         mDataSet.clear();
         mDataSet.addAll(reviews);
         notifyDataSetChanged();
@@ -39,7 +39,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecycl
 
     @Override
     public void onBindViewHolder(ReviewRecyclerViewAdapter.ViewHolder holder, int position) {
-        final Review review = mDataSet.get(position);
+        final Review review = ((Review) mDataSet.get(position));
         holder.itemView.setTag(review);
         holder.mAuthorView.setText(review.getAuthor());
         holder.mContentView.setText(review.getContent());

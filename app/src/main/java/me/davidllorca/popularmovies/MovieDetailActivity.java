@@ -32,8 +32,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putParcelable(MovieDetailFragment.ARG_ITEM,
-                    getIntent().getParcelableExtra(MovieDetailFragment.ARG_ITEM));
+            arguments.putParcelable(MovieDetailFragment.ITEM_KEY,
+                    getIntent().getParcelableExtra(MovieDetailFragment.ITEM_KEY));
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

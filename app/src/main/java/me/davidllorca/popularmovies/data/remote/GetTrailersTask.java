@@ -1,22 +1,23 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.io.ObjectStreamException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Trailer;
+import me.davidllorca.popularmovies.data.model.Trailer;
 
 /**
  * Created by david on 9/4/18.
  */
 
-public class GetTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
+public class GetTrailersTask extends AsyncTask<Integer, Void, List<? extends Object>> {
 
-    private AsyncTaskListener<List<Trailer>> listener;
+    private AsyncTaskListener<List<Object>> listener;
 
-    public GetTrailersTask(AsyncTaskListener<List<Trailer>> listener) {
+    public GetTrailersTask(AsyncTaskListener<List<Object>> listener) {
         this.listener = listener;
     }
 
@@ -27,7 +28,7 @@ public class GetTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
     }
 
     @Override
-    protected List<Trailer> doInBackground(Integer... params) {
+    protected List<? extends Object> doInBackground(Integer... params) {
         try {
             String videosResponse = NetworkUtils.getResponseFromHttpUrl(RequestFactory.buildGetVideosUrl(params[0]));
             return ResponseUtils.parseTrailersJson(videosResponse);
@@ -38,8 +39,8 @@ public class GetTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
     }
 
     @Override
-    protected void onPostExecute(List<Trailer> trailers) {
-        listener.onTaskCompleted(trailers != null ? trailers : new ArrayList<Trailer>());
+    protected void onPostExecute(List trailers) {
+        listener.onTaskCompleted(trailers != null ? trailers : new ArrayList());
     }
 
 }

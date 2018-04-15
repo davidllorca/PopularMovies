@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.davidllorca.popularmovies.model.Trailer;
+import me.davidllorca.popularmovies.data.model.Trailer;
 
 /**
  * Created by david on 14/4/18.
@@ -18,7 +18,7 @@ import me.davidllorca.popularmovies.model.Trailer;
 
 public class TrailerRecyclerViewAdapter extends RecyclerView.Adapter<TrailerRecyclerViewAdapter.ViewHolder> {
 
-    private List<Trailer> mDataSet;
+    private List mDataSet;
     private TrailerListener mListener;
 
     interface TrailerListener {
@@ -31,7 +31,7 @@ public class TrailerRecyclerViewAdapter extends RecyclerView.Adapter<TrailerRecy
         mListener = listener;
     }
 
-    public void setData(List<Trailer> trailers) {
+    public void setData(List<Object> trailers) {
         mDataSet.clear();
         mDataSet.addAll(trailers);
         notifyDataSetChanged();
@@ -46,7 +46,7 @@ public class TrailerRecyclerViewAdapter extends RecyclerView.Adapter<TrailerRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Trailer trailer = mDataSet.get(position);
+        final Trailer trailer = ((Trailer) mDataSet.get(position));
         holder.itemView.setTag(trailer);
         holder.mNameView.setText(trailer.getName());
         holder.mPlayButton.setOnClickListener(new View.OnClickListener() {
