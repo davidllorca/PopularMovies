@@ -1,8 +1,5 @@
-package me.davidllorca.popularmovies;
+package me.davidllorca.popularmovies.data.remote;
 
-
-import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * These utilities will be used to communicate with the remote API.
- *
+ * <p>
  * Created by David Llorca <davidllorcabaron@gmail.com> on 4/04/18.
  */
 public final class NetworkUtils {

@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/frame_layout_movie_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:id="@+id/frame_layout_review_list"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/rv_movie_list"
+        android:id="@+id/rv_review_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="GridLayoutManager"
-        app:spanCount="2"
-        tools:context="me.davidllorca.popularmovies.MovieListActivity"
-        tools:listitem="@layout/item_movie" />
+        app:layoutManager="LinearLayoutManager"
+        tools:context="me.davidllorca.popularmovies.MovieDetailActivity"
+        tools:listitem="@layout/item_trailer" />
 
     <ProgressBar
-        android:id="@+id/pb_movie_list_loading_indicator"
+        android:id="@+id/pb_review_list_loading_indicator"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
+
 </FrameLayout>
