@@ -1,5 +1,5 @@
 # PopularMovies
-Popular Movies Stage 1 - Android Developer Nanodegree by Udacity
+Popular Movies - Android Developer Nanodegree by Udacity
 
 #### Setup
 To set api key from [The Movie Database (TMDb)](https://developers.themoviedb.org/3) go to `/PopularMovies/build.gradle` and put your personal key.
