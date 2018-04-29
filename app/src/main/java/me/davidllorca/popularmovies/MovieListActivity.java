@@ -118,10 +118,14 @@ public class MovieListActivity extends AppCompatActivity
     @Override
     public void onTaskCompleted(List<Movie> movies) {
         mProgressBar.setVisibility(View.INVISIBLE);
-        if (!movies.isEmpty()) {
+        if (movies != null && !movies.isEmpty()) {
             showMovies(movies);
         } else {
-            Toast.makeText(this, R.string.msg_no_movies_found, Toast.LENGTH_SHORT).show();
+            String infoMessage = getString(R.string.msg_no_movies_found);
+            if(!hasNetworkConnection()) {
+                infoMessage += getString(R.string.msg_check_network_connection);
+            }
+            Toast.makeText(this, infoMessage, Toast.LENGTH_SHORT).show();
         }
     }
 

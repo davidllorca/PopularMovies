@@ -167,7 +167,7 @@ public class MovieDetailFragment extends BaseFragment implements AsyncTaskListen
 
     @Override
     public void onTaskCompleted(List<Object> result) {
-        if(!result.isEmpty()){
+        if(result != null && !result.isEmpty()){
             if(result.get(0) instanceof Trailer){
                 ((TrailerRecyclerViewAdapter) mTrailerList.getAdapter()).setData(result);
             }
