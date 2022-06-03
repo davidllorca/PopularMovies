@@ -1,4 +1,4 @@
-# PopularMovies
+# PopularMovies [Course app]
 Popular Movies - Android Developer Nanodegree by Udacity
 
 #### Setup
